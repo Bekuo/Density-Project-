@@ -69,12 +69,13 @@ function setup() {
 	}
  setDensities();
 
-	 beaker = new Beaker(50, 50)
+	  beaker = new Beaker(50, 50)
     beakerDisplay = new BeakerWindow();
 }
 
 function draw() {
   background(220);
+    beaker.show()
     for (var x in items) {
         items[x].show();
         
@@ -177,9 +178,13 @@ function keyPressed() {
 	
 	displayDensities(densities)
     
-    beaker.show()
-    beakerDisplay.show()
+    
+    //BeakerDisplay.show()
+    
 
+    if (beakerDisplay.obj != null) {
+        beakerDisplay.show();
+        }
     }
 
 function keyReleased() {
@@ -199,7 +204,37 @@ function keyReleased() {
 				}
 			}
 		}
+      /*for (var k in items) {
+        putInBeaker(items[k], beaker)
+          
+    }*/
+      thanos()
   }
   return false; // prevent any default behavior
 	
 }
+
+function thanos() {
+	var cd = Infinity;
+	var closestItemId = -1;
+	for (var i = plates.length/2; i < plates.length; i++) {
+		cd = Infinity;
+		closestItemId = -1
+		for (var j = 0; j < items.length; j++) {
+			var howClose = objDist(plates[i],items[j])
+			if (howClose < distNumb && howClose < cd) {
+				cd = howClose
+				closestItemId = j;
+			}
+		// Put closest item on plate
+		//console.log(items[j].x)
+		//items[j].x = plates[i].x 
+		}
+		if (closestItemId != -1) {
+			putOnPlate(items[closestItemId], plates[i]);	
+		}
+	}
+}
+
+
+
